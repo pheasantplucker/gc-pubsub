@@ -1,6 +1,6 @@
 {
   "name": "@pheasantplucker/gc-pubsub-node6",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A failables wrapper around Google Cloud's Pubsub, transpiled to work with node6",
   "main": "./build/pubsub.js",
   "scripts": {
