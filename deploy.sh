@@ -12,9 +12,9 @@ fi
 echo 'test complete'
 
 # Upgrade patch version
-# npm version patch
-# echo 'updated patch version'
-#
-# # Deploy to NPM
-# npm publish --access public
-# echo 'publish complete'
+npm version patch
+echo 'updated patch version'
+
+# Deploy to NPM
+npm publish --access public
+echo 'publish complete'
