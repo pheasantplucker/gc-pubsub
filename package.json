@@ -1,10 +1,10 @@
 {
-  "name": "@pheasantplucker/gc-pubsub",
+  "name": "@pheasantplucker/gc-pubsub-node6",
   "version": "1.0.2",
-  "description": "A failables wrapper around Google Cloud's Pubsub",
+  "description": "A failables wrapper around Google Cloud's Pubsub, transpiled to work with node6",
   "main": "./build/pubsub.js",
   "scripts": {
-    "test": "jest --forceExit",
+    "test": "jest --forceExit ./build/*.spec.js",
     "lint": "esw .eslintrc.js src/ lib/ tests/ -w --fix --ignore-pattern !.eslintrc.js",
     "deploy": "./deploy.sh",
     "build": "babel src --out-dir build"
