@@ -5,7 +5,7 @@ const {
   payload,
   anyFailed,
   firstFailure,
-} = require('@pheasantplucker/failables')
+} = require('@pheasantplucker/failables-node6')
 const PubSub = require('@google-cloud/pubsub')
 const { pluck, contains, map } = require('ramda')
 

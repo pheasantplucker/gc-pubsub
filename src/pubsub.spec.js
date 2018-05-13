@@ -1,6 +1,7 @@
 const {
   assertSuccess,
   assertFailure,
+  payload
 } = require(`@pheasantplucker/failables-node6`)
 const {
   createPublisher,
@@ -18,6 +19,7 @@ const {
   pull,
 } = require('./pubsub')
 const uuid = require('uuid')
+const equal = require('assert').deepEqual
 
 const { GC_PROJECT_ID } = process.env
 
