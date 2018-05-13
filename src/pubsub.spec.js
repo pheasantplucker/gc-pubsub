@@ -17,6 +17,7 @@ const {
   publishMany,
   publishManyJson,
   pull,
+  acknowledge,
 } = require('./pubsub')
 const uuid = require('uuid')
 const equal = require('assert').deepEqual
@@ -116,13 +117,14 @@ describe(`pubsub.js`, function() {
     })
   })
 
-  describe('publish() & pull()', () => {
+  describe('publish() & pull() & acknowledge()', () => {
     const topicName = `lib_test_${uuid.v4()}`
     const subscriptionName = `lib_test_${uuid.v4()}`
 
     it(`create subscriber`, () => {
       _createSubscriber()
     })
+
     it(`create publisher`, () => {
       _createPublisher()
     })
@@ -146,10 +148,33 @@ describe(`pubsub.js`, function() {
       assertSuccess(result)
     })
 
+    let ackId
     it(`should pull message`, async () => {
       const maxMessages = 1
-      const result = await pull(subscriptionName, maxMessages)
+      const returnImmediately = true
+      const result = await pull(subscriptionName, maxMessages, returnImmediately)
+      ackId = payload(result)[0].receivedMessages[0].ackId
       assertSuccess(result)
+    })
+
+    it(`should acknowledge the message`, async () => {
+      const messageIds = [ackId]
+      const result = await acknowledge(subscriptionName, messageIds)
+      assertSuccess(result)
+    })
+
+    it(`should have no messages`, async () => {
+      const maxMessages = 1
+      const returnImmediately = true
+      const result = await pull(
+        subscriptionName,
+        maxMessages,
+        returnImmediately
+      )
+      const response = payload(result)
+      const { receivedMessages } = response[0]
+      assertSuccess(result)
+      equal(receivedMessages.length, 0)
     })
 
     it(`delete the topic`, async () => {
@@ -200,7 +225,8 @@ describe(`pubsub.js`, function() {
 
     it(`should pull message`, async () => {
       const maxMessages = 2
-      const result = await pull(subscriptionName, maxMessages)
+      const returnImmediately = true
+      const result = await pull(subscriptionName, maxMessages, returnImmediately)
       assertSuccess(result)
     })
 
@@ -259,7 +285,8 @@ describe(`pubsub.js`, function() {
         data: Buffer.from(JSON.stringify(message2.data)),
       })
       const maxMessages = 2
-      const result = await pull(subscriptionName, maxMessages)
+      const returnImmediately = true
+      const result = await pull(subscriptionName, maxMessages, returnImmediately)
       const [response] = payload(result)
       const { receivedMessages } = response
       const [msg1, msg2] = receivedMessages
@@ -313,7 +340,8 @@ describe(`pubsub.js`, function() {
 
     it(`should pull message`, async () => {
       const maxMessages = 1
-      const result = await pull(subscriptionName, maxMessages)
+      const returnImmediately = true
+      const result = await pull(subscriptionName, maxMessages, returnImmediately)
       assertSuccess(result)
     })
 
