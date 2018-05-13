@@ -296,10 +296,11 @@ const publishManyJson = (() => {
 })();
 
 const pull = (() => {
-  var _ref13 = _asyncToGenerator(function* (subscriptionName, maxMessages = 1) {
+  var _ref13 = _asyncToGenerator(function* (subscriptionName, maxMessages = 1, returnImmediately = true) {
     const request = {
       subscription: getSubscription(subscriptionName),
-      maxMessages
+      maxMessages,
+      returnImmediately
     };
     try {
       const result = yield subscriber.pull(request);
@@ -311,6 +312,25 @@ const pull = (() => {
 
   return function pull(_x16) {
     return _ref13.apply(this, arguments);
+  };
+})();
+
+const acknowledge = (() => {
+  var _ref14 = _asyncToGenerator(function* (subscriptionName, ackIds) {
+    const request = {
+      subscription: getSubscription(subscriptionName),
+      ackIds
+    };
+    try {
+      const result = yield subscriber.acknowledge(request);
+      return success(result);
+    } catch (e) {
+      return failure(e.toString());
+    }
+  });
+
+  return function acknowledge(_x17, _x18) {
+    return _ref14.apply(this, arguments);
   };
 })();
 
@@ -328,5 +348,6 @@ module.exports = {
   publishJson,
   publishMany,
   publishManyJson,
-  pull
+  pull,
+  acknowledge
 };
